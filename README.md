@@ -4,7 +4,7 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/vnteamopen/dataservicex.svg)](https://pkg.go.dev/github.com/vnteamopen/dataservicex) [![build_pr](https://github.com/vnteamopen/dataservicex/actions/workflows/build.yml/badge.svg)](https://github.com/vnteamopen/dataservicex/actions/workflows/build.yml) [![Go Report Card](https://goreportcard.com/badge/github.com/vnteamopen/dataservicex)](https://goreportcard.com/report/github.com/vnteamopen/dataservicex) 
 [![Built with WeBuild](https://raw.githubusercontent.com/webuild-community/badge/master/svg/WeBuild.svg)](https://webuild.community) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/vnteamopen/dataservicex/blob/main/LICENSE)
 
-`dataservicex` is a go library that wrapup common CRUD functions of data service layer to access to database. As common application, it frequently re-implement following functions with their data model:
+`dataservicex` is a go library that wrapup common CRUD functions of the data service layer to access a database. As a common application, it frequently re-implements the following functions with its data model:
 
  - Create model
  - Update full model
