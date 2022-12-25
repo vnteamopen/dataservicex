@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  mysql:
+    image: 'mysql/mysql-server:latest'
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_DATABASE=dataservicex
+      - MYSQL_USER=dataservicex
+      - MYSQL_PASSWORD=dataservicex
+      - MYSQL_RANDOM_ROOT_PASSWORD="yes"
+  postgres:
+    image: 'postgres:latest'
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=dataservicex
+      - POSTGRES_USER=dataservicex
+      - POSTGRES_PASSWORD=dataservicex
