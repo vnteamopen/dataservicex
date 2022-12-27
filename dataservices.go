@@ -39,6 +39,10 @@ func (ds *DataServices[T]) GetDialect() goqu.DialectWrapper {
 	return ds.dialect
 }
 
+func (ds *DataServices[T]) GetDBx() *sqlx.DB {
+	return ds.db
+}
+
 func (ds *DataServices[T]) GetList(ctx context.Context) ([]T, error) {
 	var t T
 	query, params, err := ds.dialect.
