@@ -40,6 +40,7 @@ func (Person) IDColumnName() string {
 func TestCRUD(t *testing.T) {
 	address, port, dbName := fakeDB()
 	db := setup(address, port, dbName)
+	defer db.Close()
 	dialect := goqu.Dialect("mysql")
 	dataService := dataservicex.NewDataServices(db, dataservicex.WithDialect[Person](dialect))
 
@@ -196,7 +197,17 @@ CREATE TABLE person (
 func TestGetDialect(t *testing.T) {
 	address, port, dbName := fakeDB()
 	db := setup(address, port, dbName)
+	defer db.Close()
 	dialect := goqu.Dialect("mysql")
 	dataService := dataservicex.NewDataServices(db, dataservicex.WithDialect[Person](dialect))
 	assert.Equal(t, dialect, dataService.GetDialect())
+}
+
+func TestGetDBx(t *testing.T) {
+	address, port, dbName := fakeDB()
+	db := setup(address, port, dbName)
+	defer db.Close()
+	dialect := goqu.Dialect("mysql")
+	dataService := dataservicex.NewDataServices(db, dataservicex.WithDialect[Person](dialect))
+	assert.Equal(t, db, dataService.GetDBx())
 }
