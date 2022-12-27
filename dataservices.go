@@ -35,6 +35,10 @@ func WithDialect[T model](dialect goqu.DialectWrapper) func(*DataServices[T]) {
 	}
 }
 
+func (ds *DataServices[T]) GetDialect() goqu.DialectWrapper {
+	return ds.dialect
+}
+
 func (ds *DataServices[T]) GetList(ctx context.Context) ([]T, error) {
 	var t T
 	query, params, err := ds.dialect.
