@@ -192,3 +192,11 @@ CREATE TABLE person (
 	}
 	return db
 }
+
+func TestGetDialect(t *testing.T) {
+	address, port, dbName := fakeDB()
+	db := setup(address, port, dbName)
+	dialect := goqu.Dialect("mysql")
+	dataService := dataservicex.NewDataServices(db, dataservicex.WithDialect[Person](dialect))
+	assert.Equal(t, dialect, dataService.GetDialect())
+}
