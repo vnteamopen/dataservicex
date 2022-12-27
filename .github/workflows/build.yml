@@ -10,7 +10,10 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Start DB containers
+      run: docker-compose -f "tests/docker-compose.yml" up -d
     - name: Setup Go
       uses: actions/setup-go@v2
       with:
@@ -28,3 +31,6 @@ jobs:
     - name: Run vetting
       run: |
         go vet -v ./...
+    - name: Stop DB containers
+      if: always()
+      run: docker-compose -f "test/docker-compose.yml" down
