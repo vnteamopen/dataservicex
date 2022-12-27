@@ -1,14 +1,13 @@
-package tests
+package mysql
 
 import (
 	"context"
-	"fmt"
 	"github.com/doug-martin/goqu/v9"
 	_ "github.com/doug-martin/goqu/v9/dialect/mysql"
 	"github.com/go-sql-driver/mysql"
-	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/assert"
 	"github.com/vnteamopen/dataservicex"
+	"github.com/vnteamopen/dataservicex/tests"
 	"testing"
 	"time"
 )
@@ -29,36 +28,9 @@ func (Person) IDColumnName() string {
 	return "id"
 }
 
-func buildDataSource(address, database, username, password string, port int) string {
-	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", username, password, address, port, database)
-}
-
-func setupDB(driverName, dataSource string) *sqlx.DB {
-	db, err := sqlx.Connect(driverName, dataSource)
-	if err != nil {
-		panic(err)
-	}
-
-	schema := `
-CREATE TABLE IF NOT EXISTS person (
-	id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	name TEXT,
-	age INT,
-	height REAL,
-	created_at TIMESTAMP
-);`
-
-	db.MustExec(schema)
-	if err = db.Ping(); err != nil {
-		panic(err)
-	}
-
-	return db
-}
-
 func TestCRUD(t *testing.T) {
-	dataSource := buildDataSource("localhost", "dataservicex", "dataservicex", "dataservicex", 3306)
-	db := setupDB("mysql", dataSource)
+	dataSource := tests.BuildDataSource("localhost", "dataservicex", "dataservicex", "dataservicex", 3306)
+	db := tests.SetupDB("mysql", dataSource)
 	dialect := goqu.Dialect("mysql")
 	dataService := dataservicex.NewDataServices(db, dataservicex.WithDialect[Person](dialect))
 
