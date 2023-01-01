@@ -7,6 +7,7 @@ require (
 	github.com/doug-martin/goqu/v9 v9.18.0
 	github.com/go-sql-driver/mysql v1.7.0
 	github.com/jmoiron/sqlx v1.3.5
+	github.com/lib/pq v1.10.1
 	github.com/stretchr/testify v1.8.1
 )
 
