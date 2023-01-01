@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  postgres:
+    image: 'postgres:latest'
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=dataservicex
+      - POSTGRES_USER=dataservicex
+      - POSTGRES_PASSWORD=dataservicex

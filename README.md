@@ -22,7 +22,7 @@ The `dataservicex` uses generic, [goqu](https://github.com/doug-martin/goqu), an
 Import library to your project
 
 ```bash
-go get -u github.com/vnteamopen/godebouncer
+go get -u github.com/vnteamopen/dataservicex
 ```
 
 ## Usage
