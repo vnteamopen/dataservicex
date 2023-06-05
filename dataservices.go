@@ -70,22 +70,37 @@ func (ds *DataServices[T]) GetByID(ctx context.Context, id interface{}) (T, erro
 }
 
 func (ds *DataServices[T]) Create(ctx context.Context, m T) (T, error) {
-	query, params, err := ds.dialect.
+	q := ds.dialect.
 		Insert(m.TableName()).
-		Rows(m).
-		ToSQL()
+		Rows(m)
+
+	if ds.db.DriverName() == "postgres" {
+		q = q.Returning("id")
+	}
+
+	query, params, err := q.ToSQL()
 	if err != nil {
 		return m, fmt.Errorf("fail to build insert sql script: %w", err)
 	}
 
-	result, err := ds.db.ExecContext(ctx, query, params...)
-	if err != nil {
-		return m, fmt.Errorf("fail to execute insert sql script: %w", err)
-	}
+	var insertedID int64
 
-	insertedID, err := result.LastInsertId()
-	if err != nil {
-		return m, fmt.Errorf("query affected id of insert sql script: %w", err)
+	if ds.db.DriverName() == "postgres" {
+		// docs: https://pkg.go.dev/github.com/lib/pq#hdr-Queries
+		err = ds.db.QueryRowxContext(ctx, query, params...).Scan(&insertedID)
+		if err != nil {
+			return m, fmt.Errorf("fail to execute insert sql script: %w", err)
+		}
+	} else {
+		result, err := ds.db.ExecContext(ctx, query, params...)
+		if err != nil {
+			return m, fmt.Errorf("fail to execute insert sql script: %w", err)
+		}
+
+		insertedID, err = result.LastInsertId()
+		if err != nil {
+			return m, fmt.Errorf("query affected id of insert sql script: %w", err)
+		}
 	}
 
 	return ds.GetByID(ctx, insertedID)
